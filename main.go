@@ -6,22 +6,30 @@ import (
 	"time"
 )
 
-var remoteAddr, browserBrand string
+var remoteAddr, browserBrand, searchResultDir, clusterResultPath string
 var updateInterval int
 
 func init() {
 	flag.StringVar(&remoteAddr,
 		"addr",
 		"http://localhost:9222",
-		"browser remote debugging url")
+		"Browser remote debugging url.")
 	flag.StringVar(&browserBrand,
 		"browser",
 		"edge",
-		"brower brand, like chrome and edge")
+		"Brower brand, like chrome and edge.")
 	flag.IntVar(&updateInterval,
 		"updateInterval",
 		3,
-		"interval (second) for browser to update the tag list")
+		"Interval (second) for browser to update the tag list.")
+	flag.StringVar(&searchResultDir,
+		"searchResultDir",
+		"searchResults",
+		"Dir for saving the URLs of the search results extracted from the search engine pages.")
+	flag.StringVar(&clusterResultPath,
+		"result",
+		"res.txt",
+		"Text file to save clustering results.")
 	flag.Parse()
 }
 
@@ -35,8 +43,8 @@ func main() {
 	)
 	cluster := blogcluster.NewCluster(browser.C2cluster)
 	printer := blogcluster.NewTextFrontEndPrinter(
-		"searchResults",
-		"res.txt",
+		searchResultDir,
+		clusterResultPath,
 		cluster,
 	)
 	go browser.Run()
