@@ -28,9 +28,9 @@ func init() {
 func main() {
 	parser := blogcluster.NewCommonParser()
 	browser := blogcluster.NewBrowser(
-		"http://localhost:9222",
-		"edge",
-		3*time.Second,
+		remoteAddr,
+		browserBrand,
+		time.Duration(updateInterval)*time.Second,
 		parser,
 	)
 	cluster := blogcluster.NewCluster(browser.C2cluster)
